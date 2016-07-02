@@ -6,7 +6,7 @@
  *		Il faut mettre en surbrillance l'URL de la page du mod. Une fois ceci fait, la combinaison de touche CTRL+B permet de lancer l'exécution du programme.
  *		Ce dernier se base sur le texte mis en surbrillance : si il ne s'agit pas d'une URL valide, un message apparaitra. Idem si le mod est classé adulte sur Nexus :
  *		L'accès à ce type de mod nécessitant une identification ce script dans sa version actuelle ne permet pas de les visualiser puisque je n'ai pas entré les codes.
- *		Une fois la page récupéré, une première recherche est effectuée au niveau du nom du mod sur la Confrérie. Si des résultats sont obtenus, il est alors proposé d'ouvrir la
+ *		Une fois la page récupérée, une première recherche est effectuée au niveau du nom du mod sur la Confrérie. Si des résultats sont obtenus, il est alors proposé d'ouvrir la
  *		page de recherche du forum pour le mod en question.
  *		Si rien n'est remonté, une seconde recherche est proposée sur le nom du ou des auteurs.
  *		Comme pour le nom du mod, si un retour est trouvé il est possible d'ouvrir la page de recherche. 
