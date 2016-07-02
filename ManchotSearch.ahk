@@ -1,4 +1,4 @@
-﻿
+
 /*
  *		MS Confrérie - Manchot Search
  *	Principe de l'outil : permettre de détecter rapidement si le mod consulté est présent ou non sur la Confrérie.
@@ -6,7 +6,7 @@
  *		Il faut mettre en surbrillance l'URL de la page du mod. Une fois ceci fait, la combinaison de touche CTRL+B permet de lancer l'exécution du programme.
  *		Ce dernier se base sur le texte mis en surbrillance : si il ne s'agit pas d'une URL valide, un message apparaitra. Idem si le mod est classé adulte sur Nexus :
  *		L'accès à ce type de mod nécessitant une identification ce script dans sa version actuelle ne permet pas de les visualiser puisque je n'ai pas entré les codes.
- *		Une fois la page récupérée, une première recherche est effectuée au niveau du nom du mod sur la Confrérie. Si des résultats sont obtenus, il est alors proposé d'ouvrir la
+ *		Une fois la page récupéré, une première recherche est effectuée au niveau du nom du mod sur la Confrérie. Si des résultats sont obtenus, il est alors proposé d'ouvrir la
  *		page de recherche du forum pour le mod en question.
  *		Si rien n'est remonté, une seconde recherche est proposée sur le nom du ou des auteurs.
  *		Comme pour le nom du mod, si un retour est trouvé il est possible d'ouvrir la page de recherche. 
@@ -53,6 +53,7 @@ IfNotExist, %A_Startup%\%Name%lnk
 maRecherchePartieUne := "http://www.confrerie-des-traducteurs.fr/forum/search.php?keywords="
 auteursRecup := []
 nomDuMod := ""
+jeu := ""
 ^B::
 	Try{
 		obtenirNomDuMod()
@@ -72,20 +73,61 @@ nomDuMod := ""
 						obtenirNomDesAuteurs()
 						Loop, % auteursRecup0
 							If(auteursRecup%A_index%){
-							;MsgBox % auteursRecup%A_index%
-							auteur := auteursRecup%A_index%
-							maRecherche = %maRecherchePartieUne%%auteur%
-							resultatRecherche := rechercheConf(maRecherche)
-							If(resultatRecherche){
-								MsgBox, 36,Votre choix ?, % "L'auteur " auteur " est présent sur la Confrérie ! `nOuvrir la page de recherche ?"
-								IfMsgBox Yes
-									Run, %maRecherche%
-							
-								}
-							Else {
-								MsgBox, 36,Votre choix ?, % "L'auteur " auteur " n'est pas présent sur la Confrérie ! Ouvrir le forum ?"
-								IfMsgBox Yes
-									Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=75
+								;MsgBox % auteursRecup%A_index%
+								auteur := auteursRecup%A_index%
+								maRecherche = %maRecherchePartieUne%%auteur%
+								resultatRecherche := rechercheConf(maRecherche)
+								If(resultatRecherche){
+									MsgBox, 36,Votre choix ?, % "L'auteur " auteur " est présent sur la Confrérie ! `nOuvrir la page de recherche ?"
+									IfMsgBox Yes
+										Run, %maRecherche%
+								
+									}
+								Else {
+									MsgBox, 36,Votre choix ?, % "L'auteur " auteur " n'est pas présent sur la Confrérie ! Ouvrir le forum ?"
+									IfMsgBox Yes 
+									{
+										skyrim = "skyrim"
+										oblivion = "oblivion" 
+										morrowind = "morrowind"
+										fallout3 = "fallout3"
+										fallout4 = "fallout4"
+										newvegas = "newvegas"
+										ouvert := 0
+										IfInString,jeu, oblivion
+										{
+											Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=85
+											ouvert := 1
+										}
+											
+										IfInString,jeu, morrowind
+										{
+											Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=57
+											ouvert := 1
+										}
+										IfInString, jeu, skyrim
+										{	
+											Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=179
+											ouvert := 1
+										}
+										IfInString, jeu, fallout3
+										{	
+											Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=89
+											ouvert := 1
+										}									
+										IfInString, jeu, fallout4
+										{	
+											Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=277
+											ouvert := 1
+										}	
+										IfInString, jeu, newvegas
+										{	
+											Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=145
+											ouvert := 1
+										}		
+										If(ouvert = 0)
+											Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=75
+									}
 								}	
 							}
 			
@@ -93,7 +135,7 @@ nomDuMod := ""
 				}	
 			}
 		Else
-			MsgBox,48,Informations non récupérées, La page n'indique pas nom de mod ! `n Êtes-vous sur le Nexus ? Si oui, le mod est-il pour les majeurs ? `n`nAucune recherche lancée...
+			MsgBox,48,Informations non récupérées, La page n'indique pas de nom de mod ! `n Êtes-vous sur le Nexus ? Si oui, le mod est-il pour les majeurs ? `n`nAucune recherche lancée...
 		}
 	catch e{
 
@@ -159,6 +201,7 @@ obtenirNomDuMod() {
 	nomDuMod := ""
 	maRequete := ComObjCreate("WinHttp.WinHttpRequest.5.1")
 	URLMod := Clip()
+	jeu := URLMod
 	maRequete.Open("GET", URLMod, true)
 	maRequete.Send()
 	maRequete.WaitForResponse()
