@@ -59,26 +59,40 @@ Gui Add, Picture, x-2 y130 w275 h249, C:\Users\Paneb\Desktop\laconf.png
 Gui Add, DropDownList, x78 y55 w100 vForum, Demandes||En traduction|En test
 Gui Add, Button, x87 y98 w75 h23 gOuvrir, Ouvrir le Forum
 Gui, +LastFound
-
-  GuiHWND := WinExist()           ;--get handle to this gui..
+GuiHWND := WinExist()
 
 
 ^B::
+nomModChoisi := 0
+choixDeuxiemeEtage := 0
+resultatRecherche := 42
 	Try{
-		obtenirNomDuMod()
-		If(nomDuMod){
-				maRecherche = %maRecherchePartieUne%%nomDuMod%
-				resultatRecherche := rechercheConf(maRecherche)
-				If(resultatRecherche){
-					MsgBox, 36,Votre choix ?, % "Des résultats pour le mod " nomDuMod " semblent remonter sur Confrérie ! `nOuvrir la page de recherche ?"
-					IfMsgBox Yes
-						Run, %maRecherche%
-				
+		MsgBox, 36,Configuration, % "Voulez-vous utiliser le nom du mod comme base de recherche ?`n Il est conseillé de répondre non dans le cas où le mod possède une terminologie assez commune susceptible de remonter des faux positifs dans la recherche !"
+		IfMsgBox Yes 
+		{
+			obtenirNomDuMod()
+			nomModChoisi := 1
+		}
+			
+		If(nomDuMod OR nomModChoisi = 0){
+				If(nomModChoisi = 1){
+					maRecherche = %maRecherchePartieUne%%nomDuMod%
+					resultatRecherche := rechercheConf(maRecherche)
+					If(resultatRecherche){
+						MsgBox, 36,Votre choix ?, % "Des résultats pour le mod " nomDuMod " semblent remonter sur Confrérie ! `nOuvrir la page de recherche ?"
+						IfMsgBox Yes
+							Run, %maRecherche%
+					
+					}
 				}
-				Else {
+				If(resultatRecherche<>42){
 					MsgBox, 36,Votre choix ?, % "Aucun résultat dans la recherche avec le nom du mod " nomDuMod " ! `n`nLancement de la recherche avec le nom de l'auteur ?"
 					IfMsgBox Yes
-					{
+						choixDeuxiemeEtage := 1
+					}
+					
+				If(choixDeuxiemeEtage=1 OR nomModChoisi = 0)
+				{
 						obtenirNomDesAuteurs()
 						Loop, % auteursRecup0
 							If(auteursRecup%A_index%){
@@ -186,8 +200,7 @@ Gui, +LastFound
 								}	
 							}
 			
-					}
-				}	
+					}	
 			}
 		Else
 			MsgBox,48,Informations non récupérées, La page n'indique pas de nom de mod ! `n Êtes-vous sur le Nexus ? Si oui, le mod est-il pour les majeurs ? `n`nAucune recherche lancée...
@@ -205,14 +218,13 @@ Return
 Ouvrir:
 	Gui, Submit
 
-	Gui, Destroy
 Return
 ; End of the GUI section
-;GuiEscape:
-;GuiClose:
-;    ExitApp
-
-
+GuiEscape:
+GuiClose:
+	Gui, Hide
+    MsgBox, Interface fermée`, ouverture de la page du jeu !
+	Return
 /*
  *	FONCTIONS UTILISEES :
  *		- Clip () : Fonction du site AutoHotkey pour permettre une meilleure gestion du Clipboard
