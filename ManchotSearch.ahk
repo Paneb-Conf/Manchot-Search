@@ -54,6 +54,15 @@ maRecherchePartieUne := "http://www.confrerie-des-traducteurs.fr/forum/search.ph
 auteursRecup := []
 nomDuMod := ""
 jeu := ""
+Gui Add, Text, x9 y1 w242 h23 +0x200, Dans quelle section créer le sujet ?
+Gui Add, Picture, x-2 y130 w275 h249, C:\Users\Paneb\Desktop\laconf.png
+Gui Add, DropDownList, x78 y55 w100 vForum, Demandes||En traduction|En test
+Gui Add, Button, x87 y98 w75 h23 gOuvrir, Ouvrir le Forum
+Gui, +LastFound
+
+  GuiHWND := WinExist()           ;--get handle to this gui..
+
+
 ^B::
 	Try{
 		obtenirNomDuMod()
@@ -84,9 +93,13 @@ jeu := ""
 								
 									}
 								Else {
-									MsgBox, 36,Votre choix ?, % "L'auteur " auteur " n'est pas présent sur la Confrérie ! Ouvrir le forum ?"
+									MsgBox, 36,Votre choix ?, % "L'auteur " auteur " n'est pas présent sur la Confrérie ! Ouvrir le forum pour créer un sujet ?"
 									IfMsgBox Yes 
 									{
+
+										Gui Show, w268 h384, Window
+										WinWaitClose, ahk_id %GuiHWND% 
+									
 										skyrim = "skyrim"
 										oblivion = "oblivion" 
 										morrowind = "morrowind"
@@ -96,32 +109,74 @@ jeu := ""
 										ouvert := 0
 										IfInString,jeu, oblivion
 										{
-											Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=85
+											If(Forum = "Demandes")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=3
+											Else if(Forum ="En traduction")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=4
+											Else if(Forum ="En test")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=5
+											Else
+												Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=85
 											ouvert := 1
 										}
 											
 										IfInString,jeu, morrowind
 										{
+											If(Forum = "Demandes")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=58
+											Else if(Forum ="En traduction")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=59
+											Else if(Forum ="En test")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=61
+											Else
 											Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=57
 											ouvert := 1
 										}
 										IfInString, jeu, skyrim
 										{	
-											Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=179
+											If(Forum = "Demandes")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=187
+											Else if(Forum ="En traduction")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=188
+											Else if(Forum ="En test")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=190
+											Else
+												Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=179
 											ouvert := 1
 										}
 										IfInString, jeu, fallout3
 										{	
+											If(Forum = "Demandes")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=24
+											Else if(Forum ="En traduction")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=25
+											Else if(Forum ="En test")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=26
+											Else
 											Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=89
 											ouvert := 1
 										}									
 										IfInString, jeu, fallout4
 										{	
+											If(Forum = "Demandes")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=284
+											Else if(Forum ="En traduction")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=285
+											Else if(Forum ="En test")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=291
+											Else
 											Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=277
 											ouvert := 1
 										}	
 										IfInString, jeu, newvegas
-										{	
+										{
+											If(Forum = "Demandes")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=147
+											Else if(Forum ="En traduction")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=148
+											Else if(Forum ="En test")
+												Run, http://www.confrerie-des-traducteurs.fr/forum/posting.php?mode=post&f=150
+											Else										
 											Run, http://www.confrerie-des-traducteurs.fr/forum/viewforum.php?f=145
 											ouvert := 1
 										}		
@@ -146,8 +201,16 @@ Return
 
 ^#x::
 	ExitApp
+	
+Ouvrir:
+	Gui, Submit
 
-
+	Gui, Destroy
+Return
+; End of the GUI section
+;GuiEscape:
+;GuiClose:
+;    ExitApp
 
 
 /*
