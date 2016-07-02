@@ -93,7 +93,7 @@ nomDuMod := ""
 				}	
 			}
 		Else
-			MsgBox,48,Informations non récupérées, La page n'indique aucun nom de mod ! `n Êtes-vous sur le Nexus ? Si oui, le mod est-il pour les majeurs ? `n`nAucune recherche lancée...
+			MsgBox,48,Informations non récupérées, La page n'indique pas nom de mod ! `n Êtes-vous sur le Nexus ? Si oui, le mod est-il pour les majeurs ? `n`nAucune recherche lancée...
 		}
 	catch e{
 
