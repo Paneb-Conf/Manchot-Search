@@ -8,7 +8,9 @@
  Une fois la page récupérée, une première recherche est effectuée au niveau du nom du mod sur la Confrérie. Si des résultats sont obtenus, il est alors proposé d'ouvrir la page de recherche du forum pour le mod en question.<br>
  Si rien n'est remonté, une seconde recherche est proposée sur le nom du ou des auteurs.<br>
  Comme pour le nom du mod, si un retour est trouvé il est possible d'ouvrir la page de recherche. <br>
- Si rien n'est trouvé, il est possible d'ouvrir le site de la Confrérie des Traducteurs directement dans la section Jeux pour ensuite créer le sujet ;).<br><br><br><br>
+ Si rien n'est trouvé, une interface propose alors de créer le sujet !
+ Il est possible de choisir entre Demandes, En traduction, ou en test. La section de jeu sera directement identifiée.
+ En cas d'erreur c'est la page avec les différentes sections "Jeux" qui s'ouvrira !<br><br><br><br>
 
 ###**Installation :**<br>
   Mettez le .exe n'importe où, double cliquer dessus ! Puis c'est tout. Il se lancera tout seul au prochain démarrage.
@@ -22,3 +24,8 @@
 
 <br><br><br><br>
 **Idées futures :exclamation: :** choisir la section à ouvrir selon le mod concerné, automatiquement importer les images pour créer le sujet, identification pour les mods "majeurs", etc...
+
+Changelog 1.1 :
+ *		Mise en place de l'identification du jeu
+ *		Mise en place de la possibilité de créer un nouveau sujet directement dans la section de son choix
+ *		Mise en place du choix pour l'utilisateur d'utiliser ou non le nom du mod au cours de sa recherche
