@@ -55,7 +55,7 @@ auteursRecup := []
 nomDuMod := ""
 jeu := ""
 Gui Add, Text, x9 y1 w242 h23 +0x200, Dans quelle section créer le sujet ?
-Gui Add, Picture, x-2 y130 w275 h249, C:\Users\Paneb\Desktop\laconf.png
+Gui Add, Picture, x-2 y130 w275 h249, %A_ScriptDir% \laconf.png
 Gui Add, DropDownList, x78 y55 w100 vForum, Demandes||En traduction|En test
 Gui Add, Button, x87 y98 w75 h23 gOuvrir, Ouvrir le Forum
 Gui, +LastFound
@@ -223,6 +223,7 @@ Return
 GuiEscape:
 GuiClose:
 	Gui, Hide
+	Forum = ""
     MsgBox, Interface fermée`, ouverture de la page du jeu !
 	Return
 /*
